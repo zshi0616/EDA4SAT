@@ -1,5 +1,4 @@
-DATASET=../../dataset/LEC/all_case/
-# DATASET=../dataset/test/
+DATASET=../dataset/test/
 cd ./src
 
 python3 solve.py \
