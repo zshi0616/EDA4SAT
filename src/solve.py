@@ -21,9 +21,7 @@ from utils.aiger_utils import solve_aig
 from utils.utils import run_command
 
 PROBLEM_LIST = [
-    # 'I1', 'I2', 'I3', 'I4', 'I5'
-    # 'apx_0'
-    'ac3', 'ad14', 'ac1', 'ab18', 'h29'
+    'I1', 'I2', 'I3', 'I4', 'I5'
 ]
 
 # Baseline: AIG --> CNF --> Solver
@@ -50,7 +48,7 @@ if __name__ == '__main__':
     for problem_idx in range(len(PROBLEM_LIST)):
         rl_env.next_instance()
         obs = rl_env.reset()
-        print(rl_env.problem_name)
+        print('Solving {} ...'.format(rl_env.problem_name))
         
         # Our
         done = False
@@ -58,7 +56,7 @@ if __name__ == '__main__':
         tot_q = 0
         no_act = 0
         model_time = 0 
-        print('==> Testing: {:} / {:}, Problem: {}'.format(problem_idx, len(PROBLEM_LIST), rl_env.problem_name))
+        # print('==> Testing: {:} / {:}, Problem: {}'.format(problem_idx, len(PROBLEM_LIST), rl_env.problem_name))
         while not done:
             if args.disable_rl:
                 action = 999
@@ -71,12 +69,12 @@ if __name__ == '__main__':
             next_obs, reward, done, info = rl_env.step(action)
             tot_reward += reward
             tot_q += q_val
-            print('Action Step: {}, Tot Q: {:.2f}'.format(no_act, tot_q))
+            # print('Action Step: {}, Tot Q: {:.2f}'.format(no_act, tot_q))
             
         # Print
         info = rl_env.get_solve_info()
         logger.write('Circuit Name: {}'.format(rl_env.problem_name))
-        logger.write('================== Our ==================')
+        logger.write('================== Results ==================')
         logger.write('Result: {}'.format(info['res']))
         md_time = info['md_mp'] + info['md_st'] + model_time + info['md_mt']
         logger.write('# Vars: {:}, # Clause: {:}'.format(info['md_nvars'], info['md_nclas']))
